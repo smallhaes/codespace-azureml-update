@@ -27,26 +27,23 @@ epoch_interval_min=-2
 epoch_interval=$(($(_current_epoch) - $(_last_epoch)))
 
 if [[ $epoch_interval -le $epoch_interval_min ]]; then
-       exit
-fi
-
-# 获取当前的sdk版本
-CUR_VERSION=`pip show azureml-pipeline-wrapper | grep Version | cut -d "." -f 4`
-# 获取最新的sdk版本
-NEW_VERSION=`curl -s https://versionofsdk.blob.core.windows.net/versionofsdk/version.txt`
-# 如果版本没有变化则不用更新
-if [[ $NEW_VERSION == $CUR_VERSION ]]; then
-       exit
-fi
-
-if [[ $NEW_VERSION > $CUR_VERSION ]]; then
-        echo -e "Found new releases of Azure Module SDK which take about 15 minutes to update. Would you like to  update them right now? [Y/n]: \c"
-        read line
-        if [[ "$line" == Y* ]] || [[ "$line" == y* ]] || [ -z "$line" ]; then
-                pwd
-                . ~/codespace-azureml-update/update.sh
-                touch ${SDK_UPDATE_LOCK_DIR}/sdk_update_lock
-        else
-                echo "You could run 'bash ~/codespace-azureml-update/update.sh' to update SDKs yourself."
+        # 获取当前的sdk版本
+        CUR_VERSION=`pip show azureml-pipeline-wrapper | grep Version | cut -d "." -f 4`
+        # 获取最新的sdk版本
+        NEW_VERSION=`curl -s https://versionofsdk.blob.core.windows.net/versionofsdk/version.txt`
+        # 如果版本没有变化则不用更新
+        if [[ $NEW_VERSION > $CUR_VERSION ]]; then
+                echo -e "Found new releases of Azure Module SDK which take about 15 minutes to update. Would you like to  update them right now? [Y/n]: \c"
+                read line
+                if [[ "$line" == Y* ]] || [[ "$line" == y* ]] || [ -z "$line" ]; then
+                        pwd
+                        . ~/codespace-azureml-update/update.sh
+                        touch ${SDK_UPDATE_LOCK_DIR}/sdk_update_lock
+                else
+                        echo "You could run 'bash ~/codespace-azureml-update/update.sh' to update SDKs yourself."
+                fi
         fi
 fi
+
+
+
