@@ -33,7 +33,7 @@ if [[ $epoch_interval -gt $epoch_interval_min ]]; then
         NEW_VERSION=`curl -s https://versionofsdk.blob.core.windows.net/versionofsdk/version.txt`
         # 如果版本没有变化则不用更新
         if [[ $NEW_VERSION > $CUR_VERSION ]]; then
-                echo -e "Found new releases of Azure Module SDK which take about 15 minutes to update. Would you like to  update them right now? [Y/n]: \c"
+                echo -e "Found new releases of Azure Module SDK which take about a few minutes to update. Would you like to  update them right now? [Y/n]: \c"
                 read line
                 if [[ "$line" == Y* ]] || [[ "$line" == y* ]] || [ -z "$line" ]; then
                         pwd
