@@ -31,10 +31,10 @@ if [[ $epoch_interval -gt $epoch_interval_min ]]; then
         # version of sdk in codespace
         CUR_VERSION=`pip show azureml-pipeline-wrapper | grep Version | cut -d "." -f 4`
         # newest version of sdk
-        NEW_VERSION=`curl -s https://versionofsdk.blob.core.windows.net/versionofsdk/version.txt`
+        NEW_VERSION=`curl -s https://modulesdkpreview.blob.core.windows.net/sdk/preview/version.txt`
         # need to update
         if [[ $NEW_VERSION > $CUR_VERSION ]]; then
-                echo -e "Current version of Azure ML Module is ${CUR_VERSION}. A new version of ${NEW_VERSION} has been released. Would you like to update right now? [Y/n]: \c"
+                echo -e "Current version of Azure ML Module is ${CUR_VERSION}. A new version of ${NEW_VERSION:0:8} has been released. Would you like to update right now? [Y/n]: \c"
                 read line
                 if [[ "$line" == Y* ]] || [[ "$line" == y* ]] || [ -z "$line" ]; then
                         pwd
