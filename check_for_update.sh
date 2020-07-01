@@ -26,7 +26,7 @@ epoch_interval_min=-2
 #计算当前时间距离上次检查更新的时间
 epoch_interval=$(($(_current_epoch) - $(_last_epoch)))
 
-if [[ $epoch_interval -le $epoch_interval_min ]]; then
+if [[ $epoch_interval -gt $epoch_interval_min ]]; then
         # 获取当前的sdk版本
         CUR_VERSION=`pip show azureml-pipeline-wrapper | grep Version | cut -d "." -f 4`
         # 获取最新的sdk版本
