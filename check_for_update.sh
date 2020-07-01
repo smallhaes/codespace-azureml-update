@@ -45,6 +45,6 @@ if [[ $epoch_interval -gt $epoch_interval_min ]] && [[ $NEW_VERSION > $CUR_VERSI
                 . ~/codespace-azureml-update/update.sh
                 touch ${SDK_UPDATE_LOCK_DIR}/sdk_update_lock
         else
-                echo "You could run 'bash update.sh' in the directory of .devcontainer to update SDKs yourself."
+                echo "You could run 'bash ~/codespace-azureml-update/update.sh' to update SDKs yourself."
         fi
 fi
