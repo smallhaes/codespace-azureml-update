@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#.sdk_update_lock_dir目录下的sdk_update_lock用于记录上一次检查更新的时间
+# record the last update epoch
 SDK_UPDATE_LOCK_DIR=~/.sdk_update_lock_dir
 if [[ ! -d ${SDK_UPDATE_LOCK_DIR} ]]; then
         mkdir ${SDK_UPDATE_LOCK_DIR}
 fi
 
-#获取当前的时间戳
+# get current epoch
 function _current_epoch() {
         cur=`date '+%s'`
         echo $(( $cur  / 60 / 60 / 24 ))
@@ -20,18 +20,18 @@ function _last_epoch() {
         echo $(( $LAST_EPOCH / 60 / 60 / 24 ))
 }
 
-#检查更新的时间间隔是1天
+# check for update every day
 epoch_interval_min=-2
 
-#计算当前时间距离上次检查更新的时间
+# interval from last updating
 epoch_interval=$(($(_current_epoch) - $(_last_epoch)))
 
 if [[ $epoch_interval -gt $epoch_interval_min ]]; then
-        # 获取当前的sdk版本
+        # version of sdk in codespace
         CUR_VERSION=`pip show azureml-pipeline-wrapper | grep Version | cut -d "." -f 4`
-        # 获取最新的sdk版本
+        # newest version of sdk
         NEW_VERSION=`curl -s https://versionofsdk.blob.core.windows.net/versionofsdk/version.txt`
-        # 如果版本没有变化则不用更新
+        # need to update
         if [[ $NEW_VERSION > $CUR_VERSION ]]; then
                 echo -e "Found new releases of Azure Module SDK which take about a few minutes to update. Would you like to  update them right now? [Y/n]: \c"
                 read line
