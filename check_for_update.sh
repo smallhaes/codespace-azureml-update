@@ -34,14 +34,14 @@ if [[ $epoch_interval -gt $epoch_interval_min ]]; then
         NEW_VERSION=`curl -s https://versionofsdk.blob.core.windows.net/versionofsdk/version.txt`
         # need to update
         if [[ $NEW_VERSION > $CUR_VERSION ]]; then
-                echo -e "Current version of Azure Module SDK is ${CUR_VERSION}. A new version of ${NEW_VERSION} has been released. Would you like to update it right now? [Y/n]: \c"
+                echo -e "Current version of Azure Module SDK is ${CUR_VERSION}. A new version of ${NEW_VERSION} has been released. Would you like to update right now? [Y/n]: \c"
                 read line
                 if [[ "$line" == Y* ]] || [[ "$line" == y* ]] || [ -z "$line" ]; then
                         pwd
                         . ~/codespace-azureml-update/update.sh
                         touch ${SDK_UPDATE_LOCK_DIR}/sdk_update_lock
                 else
-                        echo "You could run 'bash ~/codespace-azureml-update/update.sh' to update SDKs yourself."
+                        echo "You could run 'bash ~/codespace-azureml-update/update.sh' to update later."
                 fi
         fi
 fi
