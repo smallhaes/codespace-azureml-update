@@ -34,7 +34,7 @@ if [[ $epoch_interval -gt $epoch_interval_min ]]; then
         NEW_VERSION=`curl -s https://versionofsdk.blob.core.windows.net/versionofsdk/version.txt`
         # need to update
         if [[ $NEW_VERSION > $CUR_VERSION ]]; then
-                echo -e "Current version of Azure Module SDK is ${CUR_VERSION}. A new version of ${NEW_VERSION} has been released. Would you like to update right now? [Y/n]: \c"
+                echo -e "Current version of Azure ML Module is ${CUR_VERSION}. A new version of ${NEW_VERSION} has been released. Would you like to update right now? [Y/n]: \c"
                 read line
                 if [[ "$line" == Y* ]] || [[ "$line" == y* ]] || [ -z "$line" ]; then
                         pwd
