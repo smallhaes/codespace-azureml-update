@@ -42,7 +42,7 @@ if [[ $epoch_interval -gt $epoch_interval_min ]] && [[ $NEW_VERSION > $CUR_VERSI
         read line
         if [[ "$line" == Y* ]] || [[ "$line" == y* ]] || [ -z "$line" ]; then
                 pwd
-                . ~/update/update.sh
+                . ~/codespace-azureml-update/update.sh
                 touch ${SDK_UPDATE_LOCK_DIR}/sdk_update_lock
         else
                 echo "You could run 'bash update.sh' in the directory of .devcontainer to update SDKs yourself."
