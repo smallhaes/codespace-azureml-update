@@ -16,7 +16,7 @@ function _current_epoch() {
 function _last_epoch() {
         if [[ ! -f ${SDK_UPDATE_LOCK_DIR}/sdk_update_lock ]]; then
                 touch ${SDK_UPDATE_LOCK_DIR}/sdk_update_lock
-                echo $(( $(_current_epoch) - 1 ))
+                echo $(( $(_current_epoch) / 60 / 60 / 24  - 1 ))
         else
                 LAST_EPOCH=`stat -c %Y ${SDK_UPDATE_LOCK_DIR}/sdk_update_lock`
                 echo $(( $LAST_EPOCH / 60 / 60 / 24 ))
