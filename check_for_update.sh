@@ -24,7 +24,7 @@ function _last_epoch() {
 }
 
 # check for update every day
-epoch_interval_min=1
+epoch_interval_min=-1
 
 # interval from last updating
 epoch_interval=$(($(_current_epoch) - $(_last_epoch)))
