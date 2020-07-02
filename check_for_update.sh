@@ -29,13 +29,26 @@ epoch_interval=$(($(_current_epoch) - $(_last_epoch)))
 
 if [[ $epoch_interval -gt $epoch_interval_min ]]; then
         # version of sdk in codespace
-        CUR_VERSION=`pip show azureml-pipeline-wrapper | grep Version | cut -d "." -f 4`
+        PATH_SITE_PACKAGES=/home/vsonline/.local/lib/python3.7/site-packages/
+        tmp=`ls -d ${PATH_SITE_PACKAGES}azureml_defaults*`
+        CUR_VERSION_AZUREML_DEFAULTS=${tmp:0-18:8}
+        tmp=`ls -d ${PATH_SITE_PACKAGES}azureml_pipeline_core*`
+        CUR_VERSION_AZUREML_PIPELINE_CORE=${tmp:0-18:8}
+        tmp=`ls -d ${PATH_SITE_PACKAGES}azureml_pipeline_wrapper*`
+        CUR_VERSION_AZUREML_PIPELINE_WRAPPER=${tmp:0-18:8}
+        MIN=$CUR_VERSION_AZUREML_DEFAULTS
+        if [[ $MIN > $CUR_VERSION_AZUREML_PIPELINE_CORE ]]; then
+            MIN=$CUR_VERSION_AZUREML_PIPELINE_CORE
+        fi
+        if [[ $MIN > $CUR_VERSION_AZUREML_PIPELINE_WRAPPER ]]; then
+            MIN=$CUR_VERSION_AZUREML_PIPELINE_WRAPPER
+        fi
         # newest version of sdk
         NEW_VERSION=`curl -s https://modulesdkpreview.blob.core.windows.net/sdk/preview/version.txt`
         NEW_VERSION=${NEW_VERSION:0:8}
         # need to update
-        if [[ ${#NEW_VERSION} == 8 ]] && [[ $NEW_VERSION > $CUR_VERSION ]]; then
-                echo -e "Current version of Azure ML Module is ${CUR_VERSION}. A new version of ${NEW_VERSION} has been released. Would you like to update right now? [Y/n]: \c"
+        if [[ ${#NEW_VERSION} == 8 ]] && ( [[ $NEW_VERSION > $CUR_VERSION_AZUREML_DEFAULTS ]] || [[ $NEW_VERSION > $CUR_VERSION_AZUREML_PIPELINE_CORE ]] || [[ $NEW_VERSION > $CUR_VERSION_AZUREML_PIPELINE_WRAPPER ]] ); then
+                echo -e "Current version of Azure ML Module is ${MIN}. A new version of ${NEW_VERSION} has been released. Would you like to update right now? [Y/n]: \c"
                 read line
                 if [[ "$line" == Y* ]] || [[ "$line" == y* ]] || [ -z "$line" ]; then
                         pwd
