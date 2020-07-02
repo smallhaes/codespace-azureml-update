@@ -17,5 +17,5 @@ tmp=`ls -dF ${PATH_AZURE_CLI_ML}azure_cli_ml* | grep "/$"`
 CUR_VERSION_AZUREML_DEFAULTS=${tmp:0-19:8}
 if [[ $SDK_VERSION_SHORT > $CUR_VERSION_AZURE_CLI_ML ]]; then
 	az extension remove -n azure-cli-ml 
-	az extension add --source $AZ_EXTENSION_SOURCE --pip-extra-index-urls $SDK_SOURCE --yes --debug
+	az extension add --source $AZ_EXTENSION_SOURCE --pip-extra-index-urls $SDK_SOURCE --yes --verbose
 fi
