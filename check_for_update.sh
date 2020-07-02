@@ -29,7 +29,7 @@ epoch_interval=$(($(_current_epoch) - $(_last_epoch)))
 
 if [[ $epoch_interval -gt $epoch_interval_min ]]; then
         # version of sdk in codespace
-        CUR_VERSION=`az --version | grep azure-cli-ml | cut -d "." -f 4`
+        CUR_VERSION=`pip show azureml-pipeline-wrapper | grep Version | cut -d "." -f 4`
         # newest version of sdk
         NEW_VERSION=`curl -s https://modulesdkpreview.blob.core.windows.net/sdk/preview/version.txt`
         NEW_VERSION=${NEW_VERSION:0:8}
