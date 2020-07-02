@@ -16,9 +16,11 @@ function _current_epoch() {
 function _last_epoch() {
         if [[ ! -f ${SDK_UPDATE_LOCK_DIR}/sdk_update_lock ]]; then
                 touch ${SDK_UPDATE_LOCK_DIR}/sdk_update_lock
+                echo $(( $(_current_epoch) - 1 ))
+        else
+                LAST_EPOCH=`stat -c %Y ${SDK_UPDATE_LOCK_DIR}/sdk_update_lock`
+                echo $(( $LAST_EPOCH / 60 / 60 / 24 ))
         fi
-        LAST_EPOCH=`stat -c %Y ${SDK_UPDATE_LOCK_DIR}/sdk_update_lock`
-        echo $(( $LAST_EPOCH / 60 / 60 / 24 ))
 }
 
 # check for update every day
@@ -27,7 +29,7 @@ epoch_interval_min=1
 # interval from last updating
 epoch_interval=$(($(_current_epoch) - $(_last_epoch)))
 
-if [[ $epoch_interval -gt $epoch_interval_min ]]; then
+if [[ $epoch_interval -ge $epoch_interval_min ]]; then
         # version of sdk in codespace
         PATH_SITE_PACKAGES=/home/vsonline/.local/lib/python3.7/site-packages/
         tmp=`ls -d ${PATH_SITE_PACKAGES}azureml_defaults*`
